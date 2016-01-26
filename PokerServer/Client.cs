@@ -293,7 +293,7 @@ namespace WebSocketServer
         private string GetWITitle(int WIId)
         {
             Uri tfsUri = new Uri("http://ddsm-tfs:8080/tfs/Docsvision");
-            NetworkCredential credential = new NetworkCredential("digdes\\dvbuildaccount", "P@ssw0rd");
+            NetworkCredential credential = new NetworkCredential();
             TfsTeamProjectCollection tfs = new TfsTeamProjectCollection(tfsUri, credential);
             tfs.EnsureAuthenticated();
 
