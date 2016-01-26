@@ -5,7 +5,7 @@
 */
 
 // Configure this to be wherever you put your poker server manager application at:
-var PokerServerManagerPath = 'http://localhost/PokerServerManager/';
+var PokerServerManagerPath = 'http://109pc0044.digdes.com/PokerServerManager/';
 
 var socket = null;
 var clientName = null;
@@ -126,21 +126,23 @@ function registerStaticEvents()
     {
         $('#newRoundOverlay').hide();
 
-        if ($('#roundTitle').val().length == 0)
+        if ($('#roundTitle').val().length == 0 && $('#roundWI').val().length == 0)
         {
-            alert('Round title cannot be empty.');
+            alert('Round title and WI cannot be both empty.');
             return;
         }
 
         // Send round begin
-        send('NewRoundRequest', [$('#roundTitle').val()]);
+        send('NewRoundRequest', [$('#roundTitle').val(), $('#roundWI').val()]);
 
         $('#roundTitle').val('');
+        $('#roundWI').val('');
     });
 
     $('#cancelNewRound').click(function ()
     {
         $('#roundTitle').val('');
+        $('#roundWI').val('');
         $('#newRoundOverlay').hide();
     });
 
@@ -259,7 +261,6 @@ function beginLoadUserName() {
         url: 'api/GetUserName.aspx',
         dataType: 'json',
         success: function (d) {
-            debugger;
             if (d.userName !== null && d.userName !== "") {
                 clientName = d.userName;
                 $('#clientName').val(clientName);
@@ -565,7 +566,7 @@ function updateView(data)
         {
             // Increment counter
             i++;
-
+            
             // Add the title
             $('#rounds').append('<h3>' + e.Title + '</h3>');
 

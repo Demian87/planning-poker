@@ -5,6 +5,10 @@ using System.Reflection;
 using Fleck;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.TeamFoundation.Client;
+using System.Net;
+using Microsoft.TeamFoundation.WorkItemTracking.Client;
+using System.Text;
 
 namespace WebSocketServer
 {
@@ -262,12 +266,44 @@ namespace WebSocketServer
         /// </summary>
         /// <param name="title">The title of the round.</param>
         [WebSocketSecurityCall]
-        public void NewRoundRequest(string title)
+        public void NewRoundRequest(string title, string tfsItem)
         {
-            if (!server.BeginNewRound(title))
+            string realTitle = title;
+
+            if (!string.IsNullOrEmpty(tfsItem))
+            {
+                int WIId = -1;
+                if (Int32.TryParse(tfsItem, out WIId))
+                {
+                    realTitle = GetWITitle(WIId);
+                    if (string.IsNullOrEmpty(realTitle))
+                    {
+                        SendError("NewRoundRequest", "WI not found.");
+                        return;
+                    }
+                }
+            }
+
+            if (!server.BeginNewRound(realTitle))
             {
                 SendError("NewRoundRequest", "Another round is already in progress, and must be finalized before starting a new round.");
             }
+        }
+
+        private string GetWITitle(int WIId)
+        {
+            Uri tfsUri = new Uri("http://ddsm-tfs:8080/tfs/Docsvision");
+            NetworkCredential credential = new NetworkCredential("digdes\\dvbuildaccount", "P@ssw0rd");
+            TfsTeamProjectCollection tfs = new TfsTeamProjectCollection(tfsUri, credential);
+            tfs.EnsureAuthenticated();
+
+            WorkItemStore workItemStore = tfs.GetService<WorkItemStore>();
+            StringBuilder wiql = new StringBuilder("SELECT * FROM WorkItems WHERE ").AppendFormat("[System.Id] = {0}", WIId);
+            WorkItemCollection wic = workItemStore.Query(wiql.ToString());
+            if (wic.Count == 0)
+                return string.Empty;
+            else
+                return string.Format("<a href=\"http://ddsm-tfs:8080/tfs/DocsVision/Users/_workitems#_a=edit&id={1}\" target=\"_blank\">{0} {1}: {2} </a>", wic[0].Type.Name, wic[0].Id, wic[0].Title);
         }
 
         /// <summary>
