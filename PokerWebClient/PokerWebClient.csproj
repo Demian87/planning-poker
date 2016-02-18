@@ -120,7 +120,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>20500</DevelopmentServerPort>
           <DevelopmentServerVPath>/Poker</DevelopmentServerVPath>
-          <IISUrl>http://localhost/PokerWebClient</IISUrl>
+          <IISUrl>http://109pc0044.digdes.com/PokerWebClient</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

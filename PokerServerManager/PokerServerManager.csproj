@@ -133,7 +133,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>28971</DevelopmentServerPort>
           <DevelopmentServerVPath>/PokerServerManager</DevelopmentServerVPath>
-          <IISUrl>http://localhost/PokerServerManager</IISUrl>
+          <IISUrl>http://109pc0044.digdes.com/PokerServerManager</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
