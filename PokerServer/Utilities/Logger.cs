@@ -26,7 +26,7 @@ namespace PokerServer.Utilities
                 .Append(ParceVotes(round.Votes))
                 .AppendLine(string.Format("--> Estimation: {0}", round.Decision))
                 .AppendLine("================");
-            WriteToLog(Path.Combine(Environment.GetLogicalDrives()[1], "PokerLog", string.Format("{0}.{1}", DateTime.Today.ToShortDateString(), "txt")), sb.ToString());
+            WriteToLog(Path.Combine(Environment.GetLogicalDrives()[1], "PokerLog", string.Format("{0}.{1}", DateTime.Today.ToString("yyyy.MM.dd"), "txt")), sb.ToString());
         }
 
         private static string ParceVotes(List<Vote> votes)
